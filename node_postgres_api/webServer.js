@@ -14,7 +14,7 @@ app.listen(PORT, () => {
 
 const TABLENAME = "users";
 
-// List all Users -> User[]
+// List all Objects -> Object[]
 app.get(`/${TABLENAME}`, (_req, res) => {
   getTableData(
     `Successfully queried all ${TABLENAME}`,
@@ -23,7 +23,7 @@ app.get(`/${TABLENAME}`, (_req, res) => {
   );
 });
 
-// Get single User by ID -> [User]
+// Get single Objects by ID -> [Object]
 app.get(`/${TABLENAME}/:id`, (req, res) => {
   const id = req.params.id;
   const itemName = getItemNameFromTable(TABLENAME);
@@ -34,19 +34,19 @@ app.get(`/${TABLENAME}/:id`, (req, res) => {
   );
 });
 
-// Insert User
+// Insert Object
 app.post(`/${TABLENAME}`, (req, res) => {
   const body = req.body;
   insertRow(body, `${TABLENAME}`, res);
 });
 
-// Update User
+// Update Object
 app.put(`/${TABLENAME}`, (req, res) => {
   const body = req.body;
   updateRow(body, `${TABLENAME}`, res);
 });
 
-// Delete User
+// Delete Object
 app.delete(`/${TABLENAME}/:id`, (req, res) => {
   const id = req.params.id;
   deleteRow(id, `${TABLENAME}`, res);
