@@ -13,3 +13,7 @@ export let buildUpdateData = (body) => {
 };
 
 export const getItemNameFromTable = (tableName) => tableName.slice(0, -1);
+
+export const buildFakeUser = () => {
+  
+}
