@@ -3,15 +3,28 @@ import { useGetData } from "./apiCalls";
 import "./App.css";
 
 const App = () => {
-  const [route, setRoute] = useState("/");
+  // Add `setRoute` here to play with other routes
+  const [route] = useState("/");
+  const [data, setData] = useState([]);
+  const [error, setError] = useState([]);
 
   useEffect(() => {
-    const { data, isLoading, error } = useGetData({
+    useGetData({
       url: `http://localhost:4000${route}`,
+      onSuccess: (data) => setData(data),
+      onError: (error) => setError(error),
     });
   }, []);
 
-  return <div className="App">Put ur React here, dingus...</div>;
+  return (
+    <div className="App">
+      <main>
+        {isLoading && <div>loading...</div>}
+        {error && <div>There was an error...</div>}
+        {data.length && <div>{data}</div>}
+      </main>
+    </div>
+  );
 };
 
 export default App;

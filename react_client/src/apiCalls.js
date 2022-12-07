@@ -1,24 +1,18 @@
 import { useState } from "react";
 
-export const useGetData = async ({ url, options = {} }) => {
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
+export const useGetData = async ({ url, onSuccess, onError }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   try {
     setIsLoading(true);
     const response = await fetch(url, options);
     const data = await response.json();
-    if (data) setData(data);
+    if (data) onSuccess(data);
     setIsLoading(false);
   } catch (error) {
-    if (error) setError(error);
+    if (error) onError(error);
     setIsLoading(false);
   }
 
-  return {
-    isLoading,
-    data,
-    error,
-  };
+  return isLoading;
 };
