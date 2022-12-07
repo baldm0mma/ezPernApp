@@ -7,12 +7,20 @@ const App = () => {
   const [route] = useState("/");
   const [data, setData] = useState([]);
   const [error, setError] = useState([]);
+  const [isLoading, setIsloading] = useEffect(false);
 
   useEffect(() => {
+    setIsloading(true);
     useGetData({
       url: `http://localhost:4000${route}`,
-      onSuccess: (data) => setData(data),
-      onError: (error) => setError(error),
+      onSuccess: (data) => {
+        setData(data);
+        setIsloading(false);
+      },
+      onError: (error) => {
+        setError(error);
+        setIsloading(false);
+      },
     });
   }, []);
 
@@ -20,7 +28,7 @@ const App = () => {
     <div className="App">
       <main>
         {isLoading && <div>loading...</div>}
-        {error && <div>There was an error...</div>}
+        {error && <div>{`There was an error... -> ${error}`}</div>}
         {data.length && <div>{data}</div>}
       </main>
     </div>
