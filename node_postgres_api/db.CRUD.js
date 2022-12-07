@@ -4,6 +4,7 @@ import {
   buildInsertData,
   buildUpdateData,
   getItemNameFromTable,
+  buildFakeUser,
 } from "./db.CRUD.utilities.js";
 import { dataResponse, messageResponse } from "./db.utilities.js";
 
@@ -61,5 +62,10 @@ export const insertCSVData = async (filePath, tableName) => {
   }
 };
 
-// To run the above function from the command line vvv
-// npx run-func dbConnection.js insertCSVData "<filePath.csv>" "<tableName>"
+export const insertNewUser = () => {
+  // JEV: figure out how to async process.exit() only after insertion is complete
+  insertRow(buildFakeUser(), "users");
+};
+
+// To insert a new example User from the command line vvv
+// npx run-func db.CRUD.js insertNewUser
