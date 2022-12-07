@@ -1,9 +1,9 @@
-const { client } = require("./dbConfig");
+import { client } from "./dbConfig.js";
 
 // Connect to PostgreSQL DB
 client.connect();
 
-const messageResponse = (successMessage = "Success!", query, res) => {
+export const messageResponse = (successMessage = "Success!", query, res) => {
   client.query(query, (err, _result) => {
     if (!err) {
       if (res) {
@@ -16,7 +16,7 @@ const messageResponse = (successMessage = "Success!", query, res) => {
   client.end;
 };
 
-const dataResponse = (successMessage, query, res) => {
+export const dataResponse = (successMessage, query, res) => {
   client.query(query, (err, result) => {
     if (!err) {
       res.send(result?.rows);
@@ -25,5 +25,3 @@ const dataResponse = (successMessage, query, res) => {
   });
   client.end;
 };
-
-module.exports = { dataResponse, messageResponse };

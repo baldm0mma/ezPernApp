@@ -1,8 +1,8 @@
-const csv = require("csv-parser");
-const fs = require("fs");
+import csv from "csv-parser";
+import fs from "fs";
 
 // Pares CSV file
-const CSVToJSON = async (path) =>
+export const CSVToJSON = async (path) =>
   new Promise((resolve, reject) => {
     const results = [];
     fs.createReadStream(path)
@@ -14,5 +14,3 @@ const CSVToJSON = async (path) =>
       })
       .on("error", () => reject("Promise rejected in stream"));
   });
-
-module.exports = { CSVToJSON };

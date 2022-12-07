@@ -1,20 +1,20 @@
-const { v4: uuidv4 } = require("uuid");
-const { CSVToJSON } = require("./csvParser");
-const {
+import { v4 } from "uuid";
+import { CSVToJSON } from "./csvParser.js";
+import {
   buildInsertData,
   buildUpdateData,
   getItemNameFromTable,
-} = require("./CRUDUtilities");
-const { dataResponse, messageResponse } = require("./dbUtilities");
+} from "./CRUDUtilities.js";
+import { dataResponse, messageResponse } from "./dbUtilities.js";
 
 // Get table data of dynamic table
-const getTableData = (successMessage = "Success!", query, res) => {
+export const getTableData = (successMessage = "Success!", query, res) => {
   dataResponse(successMessage, query, res);
 };
 
 // Insert single row in dynamic table
-const insertRow = (body, tableName, res) => {
-  const id = uuidv4();
+export const insertRow = (body, tableName, res) => {
+  const id = v4();
   const itemName = getItemNameFromTable(tableName);
   const successMessage = `Insertion was successful of new ${itemName} of ID: ${id}`;
   const { stringifiedKeys, stringifiedValues } = buildInsertData(body);
@@ -24,7 +24,7 @@ const insertRow = (body, tableName, res) => {
 };
 
 // Update row of single dynamic table
-const updateRow = (body, tableName, res) => {
+export const updateRow = (body, tableName, res) => {
   const id = body?.id;
   if (!id) {
     throw Error("no ID send with Req Body.");
@@ -39,7 +39,7 @@ const updateRow = (body, tableName, res) => {
 };
 
 // Delete row of single dynamic table
-const deleteRow = (id, tableName, res) => {
+export const deleteRow = (id, tableName, res) => {
   const itemName = getItemNameFromTable(tableName);
   const successMessage = `Deletion was successful of ${itemName} of ID: ${id}`;
   const deleteQuery = `DELETE FROM ${tableName} WHERE id='${id}'`;
@@ -48,7 +48,7 @@ const deleteRow = (id, tableName, res) => {
 };
 
 // Insert CSV data into table
-const insertCSVData = async (filePath, tableName) => {
+export const insertCSVData = async (filePath, tableName) => {
   try {
     const data = await CSVToJSON(filePath);
     if (!!data?.length) {
@@ -63,11 +63,3 @@ const insertCSVData = async (filePath, tableName) => {
 
 // To run the above function from the command line vvv
 // npx run-func dbConnection.js insertCSVData "<filePath.csv>" "<tableName>"
-
-module.exports = {
-  deleteRow,
-  getTableData,
-  insertCSVData,
-  insertRow,
-  updateRow,
-};
