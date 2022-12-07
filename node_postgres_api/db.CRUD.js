@@ -4,8 +4,8 @@ import {
   buildInsertData,
   buildUpdateData,
   getItemNameFromTable,
-} from "./CRUDUtilities.js";
-import { dataResponse, messageResponse } from "./dbUtilities.js";
+} from "./db.CRUD.utilities.js";
+import { dataResponse, messageResponse } from "./db.utilities.js";
 
 // Get table data of dynamic table
 export const getTableData = (successMessage = "Success!", query, res) => {

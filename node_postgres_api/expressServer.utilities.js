@@ -1,5 +1,5 @@
-import { insertRow, getTableData, deleteRow, updateRow } from "./dbCRUD.js";
-import { getItemNameFromTable } from "./CRUDUtilities.js";
+import { insertRow, getTableData, deleteRow, updateRow } from "./db.CRUD.js";
+import { getItemNameFromTable } from "./db.CRUD.utilities.js";
 
 export const buildRoutes = ({ app, route }) => {
   // List all Objects -> Object[]

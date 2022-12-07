@@ -1,4 +1,4 @@
-import { client } from "./dbConfig.js";
+import { client } from "./db.config.js";
 
 // Connect to PostgreSQL DB
 client.connect();
