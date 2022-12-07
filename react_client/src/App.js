@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useGetData } from "./apiCalls";
 import "./App.css";
 
