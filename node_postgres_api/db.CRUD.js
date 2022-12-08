@@ -7,11 +7,14 @@ import {
   buildUpdateData,
   getItemNameFromTable,
 } from "./db.CRUD.utilities.js";
-import { dataResponse, messageResponse } from "./db.utilities.js";
+import {
+  dbQueryResponseWithMessage,
+  dbQueryResponseWithData,
+} from "./db.utilities.js";
 
 // Get table data of dynamic table
 export const getTableData = (successMessage = "Success!", query, res) => {
-  dataResponse(successMessage, query, res);
+  dbQueryResponseWithData(successMessage, query, res);
 };
 
 // Insert single row in dynamic table
@@ -22,7 +25,7 @@ export const insertRow = (body, tableName, res) => {
   const { stringifiedKeys, stringifiedValues } = buildInsertData(body);
   const insertQuery = `INSERT INTO ${tableName}(id, inserted_at, ${stringifiedKeys}) VALUES ('${id}', '${Date.now()}', '${stringifiedValues}')`;
 
-  messageResponse(successMessage, insertQuery, res);
+  dbQueryResponseWithMessage(successMessage, insertQuery, res);
 };
 
 // Update row of single dynamic table
@@ -37,7 +40,7 @@ export const updateRow = (body, tableName, res) => {
   const updatedData = buildUpdateData(body);
   const updateQuery = `UPDATE ${tableName} SET ${updatedData} WHERE id=${id}`;
 
-  messageResponse(successMessage, updateQuery, res);
+  dbQueryResponseWithMessage(successMessage, updateQuery, res);
 };
 
 // Delete row of single dynamic table
@@ -46,7 +49,7 @@ export const deleteRow = (id, tableName, res) => {
   const successMessage = `Deletion was successful of ${itemName} of ID: ${id}`;
   const deleteQuery = `DELETE FROM ${tableName} WHERE id='${id}'`;
 
-  messageResponse(successMessage, deleteQuery, res);
+  dbQueryResponseWithMessage(successMessage, deleteQuery, res);
 };
 
 // Insert CSV data into table
@@ -68,14 +71,15 @@ export const createTable = (tableName, tableAttrs) => {
   const query = `CREATE TABLE ${tableName}(${buildCreateTableData(
     tableAttrs
   )})`;
-  messageResponse(`Successfully created the ${tableName} table!`, query, res);
+  dbQueryResponseWithMessage(
+    `Successfully created the ${tableName} table!`,
+    query,
+    res
+  );
 };
 
-// Insert new User
+// For inserting a new User from the command line
 export const insertNewUser = () => {
   // JEV: figure out how to async process.exit() only after insertion is complete
   insertRow(buildFakeUser(), "users");
 };
-
-// To insert a new example User from the command line vvv
-// `npx run-func db.CRUD.js <functionName> <...args>`
