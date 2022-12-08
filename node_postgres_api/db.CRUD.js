@@ -62,10 +62,16 @@ export const insertCSVData = async (filePath, tableName) => {
   }
 };
 
+// Create new Table
+export const createTable = ({ tableName, tableAttrs }) => {
+  messageResponse(`Successfully created the ${tableName} table!`, query, res);
+};
+
+// Insert new User
 export const insertNewUser = () => {
   // JEV: figure out how to async process.exit() only after insertion is complete
   insertRow(buildFakeUser(), "users");
 };
 
 // To insert a new example User from the command line vvv
-// npx run-func db.CRUD.js insertNewUser
+// `npx run-func db.CRUD.js <functionName> <...args>`
