@@ -16,6 +16,19 @@ export let buildUpdateData = (body) => {
   return stringifiedData;
 };
 
+// JEV: annotate return type here
+export const buildCreateTableData = (attrs) => {
+  const finalStringifiedAttrs = "";
+  const columnNames = Object.keys(attrs);
+  for (const colName of columnNames) {
+    finalStringifiedAttrs +
+      `${colName} ${attrs[colName][type]} ${attrs[colName][nullStatus]}} `;
+  }
+
+  // This trim() removes any trailing whitespace from the above concatination
+  return finalStringifiedAttrs.trim();
+};
+
 export const getItemNameFromTable = (tableName) => tableName.slice(0, -1);
 
 export const buildFakeUser = () => ({

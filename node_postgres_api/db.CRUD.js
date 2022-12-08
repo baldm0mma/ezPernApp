@@ -63,8 +63,8 @@ export const insertCSVData = async (filePath, tableName) => {
 };
 
 // Create new Table
-export const createTable = ({ tableName, tableAttrs }) => {
-  const query = `CREATE TABLE ${tableName}(id UUID NOT NULL, created text NOT NULL, sessionlife integer NOT NULL)`
+export const createTable = (tableName, tableAttrs) => {
+  const query = `CREATE TABLE ${tableName}(id UUID NOT NULL, created text NOT NULL, sessionlife integer NOT NULL)`;
   messageResponse(`Successfully created the ${tableName} table!`, query, res);
 };
 
