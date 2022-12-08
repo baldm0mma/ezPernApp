@@ -1,10 +1,11 @@
 import { v4 } from "uuid";
 import { CSVToJSON } from "./csvParser.js";
 import {
+  buildCreateTableData,
+  buildFakeUser,
   buildInsertData,
   buildUpdateData,
   getItemNameFromTable,
-  buildFakeUser,
 } from "./db.CRUD.utilities.js";
 import { dataResponse, messageResponse } from "./db.utilities.js";
 
@@ -64,7 +65,9 @@ export const insertCSVData = async (filePath, tableName) => {
 
 // Create new Table
 export const createTable = (tableName, tableAttrs) => {
-  const query = `CREATE TABLE ${tableName}(id UUID NOT NULL, created text NOT NULL, sessionlife integer NOT NULL)`;
+  const query = `CREATE TABLE ${tableName}(${buildCreateTableData(
+    tableAttrs
+  )})`;
   messageResponse(`Successfully created the ${tableName} table!`, query, res);
 };
 

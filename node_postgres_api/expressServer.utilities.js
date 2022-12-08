@@ -1,9 +1,14 @@
-import { insertRow, getTableData, deleteRow, updateRow } from "./db.CRUD.js";
+import {
+  getTableData,
+  // insertRow,
+  // deleteRow,
+  // updateRow
+} from "./db.CRUD.js";
 import { getItemNameFromTable } from "./db.CRUD.utilities.js";
 
 export const buildRoutes = ({ app, route }) => {
   // List all Objects -> Object[]
-  const getList = app.get(`/${route}`, (_req, res) => {
+  app.get(`/${route}`, (_req, res) => {
     getTableData(
       `Successfully queried all ${route}`,
       `SELECT * FROM ${route}`,
@@ -12,7 +17,7 @@ export const buildRoutes = ({ app, route }) => {
   });
 
   // Get single Objects by ID -> [Object]
-  const getSingle = app.get(`/${route}/:id`, (req, res) => {
+  app.get(`/${route}/:id`, (req, res) => {
     const id = req.params.id;
     const itemName = getItemNameFromTable(route);
     getTableData(
@@ -22,22 +27,23 @@ export const buildRoutes = ({ app, route }) => {
     );
   });
 
+  // Optional routes.
+
   // Insert Object
-  const post = app.post(`/${route}`, (req, res) => {
-    const body = req.body;
-    insertRow(body, `${route}`, res);
-  });
+  // const post = app.post(`/${route}`, (req, res) => {
+  //   const body = req.body;
+  //   insertRow(body, `${route}`, res);
+  // });
 
   // Update Object
-  const put = app.put(`/${route}`, (req, res) => {
-    const body = req.body;
-    updateRow(body, `${route}`, res);
-  });
+  // const put = app.put(`/${route}`, (req, res) => {
+  //   const body = req.body;
+  //   updateRow(body, `${route}`, res);
+  // });
 
   // Delete Object
-  const deleteSingle = app.delete(`/${route}/:id`, (req, res) => {
-    const id = req.params.id;
-    deleteRow(id, `${route}`, res);
-  });
-  return { getList, getSingle, post, put, deleteSingle };
+  // const deleteSingle = app.delete(`/${route}/:id`, (req, res) => {
+  //   const id = req.params.id;
+  //   deleteRow(id, `${route}`, res);
+  // });
 };

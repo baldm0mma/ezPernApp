@@ -14,6 +14,9 @@ app.listen(PORT, () => {
   console.log(`Server is now listening at port ${PORT}`);
 });
 
+// JEV: first build db
+// JEV: second build a table - I suggest "users"
+// JEV: instert shit into table
 
-// Build a example "users" route
+// Build example "users" routes - only `get` routes are defined by default
 buildRoutes({ app, route: "users" });
