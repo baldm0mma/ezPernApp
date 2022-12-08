@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 
+// JEV: annotate return type here
 export const buildInsertData = (body) => {
   const keys = Object.keys(body);
   const stringifiedKeys = keys.join(", ");
@@ -7,6 +8,7 @@ export const buildInsertData = (body) => {
   return { stringifiedKeys, stringifiedValues };
 };
 
+// JEV: annotate return type here
 export let buildUpdateData = (body) => {
   const keys = Object.keys(body);
   const data = keys.map((key) => `${key} = '${body[key]}'`);
