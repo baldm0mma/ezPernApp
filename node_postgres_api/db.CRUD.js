@@ -13,26 +13,48 @@ import {
 } from "./db.utilities.js";
 
 // Get table data of dynamic table
-export const getTableData = (successMessage = "Success!", query, res) => {
-  dbQueryResponseWithData(successMessage, query, res);
+export const getTableData = async (
+  successMessage = "Success!",
+  query,
+  httpResponse
+) => {
+  try {
+    const dbResponse = await dbQueryResponseWithData(
+      successMessage,
+      query,
+      httpResponse
+    );
+    return dbResponse;
+  } catch (error) {
+    throw error;
+  }
 };
 
 // Insert single row in dynamic table
-export const insertRow = (body, tableName, res) => {
+export const insertRow = async (body, tableName, httpResponse) => {
   const id = v4();
   const itemName = getItemNameFromTable(tableName);
   const successMessage = `Insertion was successful of new ${itemName} of ID: ${id}`;
   const { stringifiedKeys, stringifiedValues } = buildInsertData(body);
   const insertQuery = `INSERT INTO ${tableName}(id, inserted_at, ${stringifiedKeys}) VALUES ('${id}', '${Date.now()}', '${stringifiedValues}')`;
 
-  dbQueryResponseWithMessage(successMessage, insertQuery, res);
+  try {
+    const dbResponse = await dbQueryResponseWithMessage(
+      successMessage,
+      insertQuery,
+      httpResponse
+    );
+    return dbResponse;
+  } catch (error) {
+    throw error;
+  }
 };
 
 // Update row of single dynamic table
-export const updateRow = (body, tableName, res) => {
+export const updateRow = async (body, tableName, httpResponse) => {
   const id = body?.id;
   if (!id) {
-    throw Error("no ID send with Req Body.");
+    throw Error("no ID sent with Req Body.");
   }
   delete body.id;
   const itemName = getItemNameFromTable(tableName);
@@ -40,16 +62,34 @@ export const updateRow = (body, tableName, res) => {
   const updatedData = buildUpdateData(body);
   const updateQuery = `UPDATE ${tableName} SET ${updatedData} WHERE id=${id}`;
 
-  dbQueryResponseWithMessage(successMessage, updateQuery, res);
+  try {
+    const dbResponse = await dbQueryResponseWithMessage(
+      successMessage,
+      updateQuery,
+      httpResponse
+    );
+    return dbResponse;
+  } catch (error) {
+    throw error;
+  }
 };
 
 // Delete row of single dynamic table
-export const deleteRow = (id, tableName, res) => {
+export const deleteRow = async (id, tableName, httpResponse) => {
   const itemName = getItemNameFromTable(tableName);
   const successMessage = `Deletion was successful of ${itemName} of ID: ${id}`;
   const deleteQuery = `DELETE FROM ${tableName} WHERE id='${id}'`;
 
-  dbQueryResponseWithMessage(successMessage, deleteQuery, res);
+  try {
+    const dbResponse = await dbQueryResponseWithMessage(
+      successMessage,
+      deleteQuery,
+      httpResponse
+    );
+    return dbResponse;
+  } catch (error) {
+    throw error;
+  }
 };
 
 // Insert CSV data into table
@@ -64,6 +104,8 @@ export const insertCSVData = async (filePath, tableName) => {
   } catch (error) {
     throw new Error(error);
   }
+  // This throw will tie up the conditional from the `try` block above
+  throw new Error("no data present in .CSV file");
 };
 
 // Create new Table
