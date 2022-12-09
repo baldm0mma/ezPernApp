@@ -53,9 +53,8 @@ export const insertRow = async (body, tableName, httpResponse) => {
 // Update row of single dynamic table
 export const updateRow = async (body, tableName, httpResponse) => {
   const id = body?.id;
-  if (!id) {
-    throw Error("no ID sent with Req Body.");
-  }
+  // `throw` stops the execution of the function, no `return` required
+  if (!id) throw Error("no ID sent with Req Body.");
   delete body.id;
   const itemName = getItemNameFromTable(tableName);
   const successMessage = `Update was successful of ${itemName} of ID: ${id}`;
