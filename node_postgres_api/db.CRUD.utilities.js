@@ -18,15 +18,25 @@ export let buildUpdateData = (body) => {
 
 // JEV: annotate return type here
 export const buildCreateTableData = (attrs) => {
-  const finalStringifiedAttrs = "";
-  const columnNames = Object.keys(attrs);
+  const parsedAttrs = JSON.parse(attrs);
+  console.log(attrs, "attrs");
+  let finalStringifiedAttrs = "";
+  const columnNames = Object.keys(parsedAttrs);
+  console.log(columnNames, "columnNames");
   for (const colName of columnNames) {
-    finalStringifiedAttrs +
-      `${colName} ${attrs[colName][type]} ${attrs[colName][nullStatus]}} `;
+    console.log(colName, "colName");
+    console.log(parsedAttrs[colName], "parsedAttrs[colName]");
+    finalStringifiedAttrs =
+      finalStringifiedAttrs +
+      `${colName} ${parsedAttrs[colName]["type"]} ${
+        parsedAttrs[colName]["nullStatus"] ?? ""
+      }, `;
   }
+  console.log(finalStringifiedAttrs, "finalStringifiedAttrs");
 
-  // This trim() removes any trailing whitespace from the above concatination
-  return finalStringifiedAttrs.trim();
+  // Trim off dangling comma and whitespace
+  return finalStringifiedAttrs.slice(0, -2);
+  // npx run-func db.CRUD.js createTable 'friends' <shell_variable>
 };
 
 export const getItemNameFromTable = (tableName) => tableName.slice(0, -1);

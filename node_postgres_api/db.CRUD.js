@@ -109,19 +109,24 @@ export const insertCSVData = async (filePath, tableName) => {
 
 // Create new Table
 // Type out args
-export const createTable = (tableName, tableAttrs) => {
-  console.log(tableName, "tablename");
-  console.log(tableAttrs, "tableAttrs");
-  const query = `CREATE TABLE ${tableName} (${buildCreateTableData(
+export const createTable = async (tableName, tableAttrs) => {
+  // console.log(tableName, "tablename");
+  // console.log(tableAttrs, "tableAttrs");
+  const successMessage = `Successfully created the ${tableName} table!`;
+  const creatTableQuery = `CREATE TABLE ${tableName} (${buildCreateTableData(
     tableAttrs
   )})`;
-  console.log(query, "query");
+  console.log(creatTableQuery, "creatTableQuery");
 
-  // dbQueryResponseWithMessage(
-  //   `Successfully created the ${tableName} table!`,
-  //   query,
-  //   res
-  // );
+  try {
+    const dbResponse = await dbQueryResponseWithMessage(
+      successMessage,
+      creatTableQuery
+    );
+    return dbResponse;
+  } catch (error) {
+    throw error;
+  }
 };
 
 // For inserting a new User from the command line
