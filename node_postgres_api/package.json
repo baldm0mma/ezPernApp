@@ -10,7 +10,8 @@
   "type": "module",
   "scripts": {
     "start": "node ./expressServer.js",
-    "insertUser": "npx run-func db.CRUD.js insertNewUser"
+    "insertUser": "npx run-func db.CRUD.js insertNewUser",
+    "createTable": "npx run-func db.CRUD.js createTable"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0"

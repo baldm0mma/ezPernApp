@@ -1,7 +1,7 @@
 import pg from "pg";
-const { Client } = pg;
+const { Pool } = pg;
 
-export const client = new Client({
+export const pool = new Pool({
   host: "localhost",
   user: "postgres",
   port: 5432,

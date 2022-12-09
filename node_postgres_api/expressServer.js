@@ -1,7 +1,5 @@
 import express from "express";
 import cors from "cors";
-// import { insertRow, getTableData, deleteRow, updateRow } from "./dbCRUD.js";
-// import { getItemNameFromTable } from "./CRUDUtilities.js";
 import { buildRoutes } from "./expressServer.utilities.js";
 
 const PORT = 4000;

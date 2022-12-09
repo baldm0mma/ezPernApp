@@ -1,33 +1,38 @@
-import { client } from "./db.config.js";
+import { pool } from "./db.config.js";
 
 // Connect to PostgreSQL DB
-client.connect();
+pool.connect();
 
+// Wrap Db queries in Promises???
 export const dbQueryResponseWithMessage = (
   successMessage = "Success!",
   query,
-  res
+  response
 ) => {
   // This query handles inserts/updates/deletes, so all we send back is a success message, instead of "results"
-  client.query(query, (err, _result) => {
-    if (!err) {
-      if (res) {
-        res.send(successMessage);
-      } else {
+  return new Promise((resolve, reject) => {
+    pool.query(query, (error, _) => {
+      if (error) return reject(error);
+      if (response) {
+        response.send(successMessage);
         console.log(successMessage);
+        return resolve(successMessage);
       }
-    } else throw err;
+    });
   });
-  client.end;
 };
 
-export const dbQueryResponseWithData = (successMessage, query, res) => {
-  // This query handles reads, so we need to send data (results) back in the response
-  client.query(query, (err, result) => {
-    if (!err) {
-      res.send(result?.rows);
-      console.log(successMessage);
-    } else throw err;
+export const dbQueryResponseWithData = (successMessage, query, response) => {
+  // This query handles reads, so we need to send the data "result" back in the response
+  return new Promise((resolve, reject) => {
+    pool.query(query, (error, result) => {
+      if (error) return reject(error);
+      if (result) {
+        const data = result?.rows;
+        response.send(data);
+        console.log(successMessage);
+        return resolve(data);
+      }
+    });
   });
-  client.end;
 };
