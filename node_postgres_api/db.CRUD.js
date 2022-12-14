@@ -19,11 +19,13 @@ export const getTableData = async (
   httpResponse
 ) => {
   try {
+    console.log("try getTableData()");
     const dbResponse = await dbQueryResponseWithData(
       successMessage,
       query,
       httpResponse
     );
+    console.log(dbResponse, "dbresp");
     return dbResponse;
   } catch (error) {
     throw error;
@@ -130,7 +132,10 @@ export const createTable = async (tableName, tableAttrs) => {
 };
 
 // For inserting a new User from the command line
+// JEV: when the express app is running in a termrinal window, and this function is run with run-func in a nother window, the db connection breaks?!?!?!?!
 export const insertNewUser = () => {
   // JEV: figure out how to async process.exit() only after insertion is complete
   insertRow(buildFakeUser(), "users");
+  //   console.log(addedUserResponse);
+  //   process.exit();
 };

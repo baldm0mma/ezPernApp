@@ -7,8 +7,10 @@ import {
 import { getItemNameFromTable } from "./db.CRUD.utilities.js";
 
 export const buildRoutes = ({ app, route }) => {
+  console.log("routesBuilt");
   // List all Objects -> Object[]
   app.get(`/${route}`, (_req, res) => {
+    console.log("app.get(`/${route}`");
     getTableData(
       `Successfully queried all ${route}`,
       `SELECT * FROM ${route}`,
