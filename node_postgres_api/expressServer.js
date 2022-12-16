@@ -18,25 +18,8 @@ app.listen(PORT, () => {
 // JEV: second build a table - I suggest "users"
 // JEV: instert shit into table
 
-// Build example "users" routes - only `get` routes are defined by default
+/*
+  Build example "users" routes - only `get` routes are defined by default;
+  i.e. list table data and get single item in table.
+*/
 buildRoutes({ app, route: "users" });
-// List all Objects -> Object[]
-// app.get(`/${route}`, (_req, res) => {
-//   console.log("app.get(`/${route}`");
-//   getTableData(
-//     `Successfully queried all ${route}`,
-//     `SELECT * FROM ${route}`,
-//     res
-//   );
-// });
-
-// // Get single Objects by ID -> [Object]
-// app.get(`/${route}/:id`, (req, res) => {
-//   const id = req.params.id;
-//   const itemName = getItemNameFromTable(route);
-//   getTableData(
-//     `Successfully queried ${itemName} with ID: ${id}`,
-//     `SELECT * FROM ${route} WHERE id=${id}`,
-//     res
-//   );
-// });
