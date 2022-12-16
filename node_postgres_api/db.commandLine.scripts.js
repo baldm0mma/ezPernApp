@@ -1,14 +1,5 @@
 import { faker } from "@faker-js/faker";
 
-// Fake user data factory
-class FakeUser {
-  constructor({ firstname, lastname, email }) {
-    this.firstname = firstname;
-    this.lastname = lastname;
-    this.email = email;
-  }
-}
-
 // Create new Table
 // Type out args
 export const createTable = async (tableName, tableAttrs) => {
@@ -28,11 +19,11 @@ export const createTable = async (tableName, tableAttrs) => {
 export const insertNewUser = () => {
   // JEV: figure out how to async process.exit() only after insertion is complete
   insertRow(
-    new FakeUser({
+    {
       firstname: faker.name.firstName(),
       lastname: faker.name.lastName(),
       email: faker.internet.email(),
-    }),
+    },
     "users"
   );
   //   console.log(addedUserResponse);

@@ -1,7 +1,5 @@
 import { client } from "./db.config.js";
 
-const DEFAULT_SUCCESS_MESSAGE = "Success!";
-
 export const dbQueryResponseWithMessage = (
   successMessage = DEFAULT_SUCCESS_MESSAGE,
   query,
@@ -21,20 +19,17 @@ export const dbQueryResponseWithMessage = (
     });
 };
 
-export const dbQueryResponseWithData = (
-  successMessage = DEFAULT_SUCCESS_MESSAGE,
-  query,
-  response
-) => {
+export const dbQueryResponseWithData = (query) => {
   // This query handles reads, so we need to send the data `result` back in the response
-  client
-    .query(query)
-    .then((result) => {
-      const data = result?.rows;
-      response.send(data);
-      console.log(successMessage);
-    })
-    .catch((error) => {
-      throw error;
-    });
+  return new Promise((resolve, reject) => {
+    client
+      .query(query)
+      .then((result) => {
+        const data = result?.rows;
+        resolve(data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
 };

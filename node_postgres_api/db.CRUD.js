@@ -1,10 +1,6 @@
 import { v4 } from "uuid";
 import { CSVToJSON } from "./csvParser.js";
-import {
-  buildInsertData,
-  buildUpdateData,
-  getItemNameFromTable,
-} from "./db.CRUD.utilities.js";
+import { buildInsertData, buildUpdateData } from "./db.CRUD.utilities.js";
 import {
   dbQueryResponseWithMessage,
   dbQueryResponseWithData,
@@ -12,11 +8,10 @@ import {
 import { getItemNameFromTable } from "./general.utilities.js";
 
 // Get table data of dynamic table
-export const getTableData = (
-  successMessage = "Success!",
-  query,
-  httpResponse
-) => dbQueryResponseWithData(successMessage, query, httpResponse);
+export const getTableData = (query) =>
+  dbQueryResponseWithData(query)
+    .then((data) => Promise.resolve(data))
+    .catch((error) => error);
 
 // Insert single row in dynamic table
 export const insertRow = (body, tableName, httpResponse) => {

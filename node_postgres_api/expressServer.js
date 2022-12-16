@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { buildRoutes } from "./expressServer.utilities.js";
+import { buildRoutes } from "./expressServer.routeBuilder.js";
 
 const PORT = 4000;
 

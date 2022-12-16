@@ -9,24 +9,29 @@ import { getItemNameFromTable } from "./general.utilities.js";
 export const buildRoutes = ({ app, route }) => {
   console.log("routesBuilt");
   // List all Objects -> Object[]
-  app.get(`/${route}`, (_req, res) => {
-    console.log("app.get(`/${route}`");
-    getTableData(
-      `Successfully queried all ${route}`,
-      `SELECT * FROM ${route}`,
-      res
-    );
+  app.get(`/${route}`, (_request, response, next) => {
+    getTableData(`SELECT * FROM ${route}`)
+      .then((tableData) => {
+        console.log(`Successfully queried all ${route}`);
+        response.send(tableData);
+      })
+      .catch((error) => {
+        next(error);
+      });
   });
 
   // Get single Objects by ID -> [Object]
-  app.get(`/${route}/:id`, (req, res) => {
-    const id = req.params.id;
+  app.get(`/${route}/:id`, (request, response, next) => {
+    const id = request.params.id;
     const itemName = getItemNameFromTable(route);
-    getTableData(
-      `Successfully queried ${itemName} with ID: ${id}`,
-      `SELECT * FROM ${route} WHERE id=${id}`,
-      res
-    );
+    getTableData(`SELECT * FROM ${route} WHERE id=${id}`)
+      .then((itemData) => {
+        console.log(`Successfully queried ${itemName} with ID: ${id}`);
+        response.send(itemData);
+      })
+      .catch((error) => {
+        next(error);
+      });
   });
 
   // Optional routes.
