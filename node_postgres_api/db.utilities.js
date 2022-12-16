@@ -1,7 +1,9 @@
 import { client } from "./db.config.js";
 
+const DEFAULT_SUCCESS_MESSAGE = "Success!";
+
 export const dbQueryResponseWithMessage = (
-  successMessage = "Success!",
+  successMessage = DEFAULT_SUCCESS_MESSAGE,
   query,
   response
 ) => {
@@ -20,7 +22,7 @@ export const dbQueryResponseWithMessage = (
 };
 
 export const dbQueryResponseWithData = (
-  successMessage = "Success!",
+  successMessage = DEFAULT_SUCCESS_MESSAGE,
   query,
   response
 ) => {
