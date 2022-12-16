@@ -8,3 +8,6 @@ export const client = new Client({
   password: "postgres",
   database: "postgres",
 });
+
+// Connect to PostgreSQL DB
+client.connect();

@@ -13,43 +13,21 @@ import {
 } from "./db.utilities.js";
 
 // Get table data of dynamic table
-export const getTableData = async (
+export const getTableData = (
   successMessage = "Success!",
   query,
   httpResponse
-) => {
-  try {
-    console.log("try getTableData()");
-    const dbResponse = await dbQueryResponseWithData(
-      successMessage,
-      query,
-      httpResponse
-    );
-    console.log(dbResponse, "dbresp");
-    return dbResponse;
-  } catch (error) {
-    throw error;
-  }
-};
+) => dbQueryResponseWithData(successMessage, query, httpResponse);
 
 // Insert single row in dynamic table
-export const insertRow = async (body, tableName, httpResponse) => {
+export const insertRow = (body, tableName, httpResponse) => {
   const id = v4();
   const itemName = getItemNameFromTable(tableName);
   const successMessage = `Insertion was successful of new ${itemName} of ID: ${id}`;
   const { stringifiedKeys, stringifiedValues } = buildInsertData(body);
   const insertQuery = `INSERT INTO ${tableName}(id, inserted_at, ${stringifiedKeys}) VALUES ('${id}', '${Date.now()}', '${stringifiedValues}')`;
 
-  try {
-    const dbResponse = await dbQueryResponseWithMessage(
-      successMessage,
-      insertQuery,
-      httpResponse
-    );
-    return dbResponse;
-  } catch (error) {
-    throw error;
-  }
+  dbQueryResponseWithMessage(successMessage, insertQuery, httpResponse);
 };
 
 // Update row of single dynamic table
@@ -63,16 +41,7 @@ export const updateRow = async (body, tableName, httpResponse) => {
   const updatedData = buildUpdateData(body);
   const updateQuery = `UPDATE ${tableName} SET ${updatedData} WHERE id=${id}`;
 
-  try {
-    const dbResponse = await dbQueryResponseWithMessage(
-      successMessage,
-      updateQuery,
-      httpResponse
-    );
-    return dbResponse;
-  } catch (error) {
-    throw error;
-  }
+  dbQueryResponseWithMessage(successMessage, updateQuery, httpResponse);
 };
 
 // Delete row of single dynamic table
@@ -81,16 +50,7 @@ export const deleteRow = async (id, tableName, httpResponse) => {
   const successMessage = `Deletion was successful of ${itemName} of ID: ${id}`;
   const deleteQuery = `DELETE FROM ${tableName} WHERE id='${id}'`;
 
-  try {
-    const dbResponse = await dbQueryResponseWithMessage(
-      successMessage,
-      deleteQuery,
-      httpResponse
-    );
-    return dbResponse;
-  } catch (error) {
-    throw error;
-  }
+  dbQueryResponseWithMessage(successMessage, deleteQuery, httpResponse);
 };
 
 // Insert CSV data into table
@@ -120,15 +80,7 @@ export const createTable = async (tableName, tableAttrs) => {
   )})`;
   console.log(creatTableQuery, "creatTableQuery");
 
-  try {
-    const dbResponse = await dbQueryResponseWithMessage(
-      successMessage,
-      creatTableQuery
-    );
-    return dbResponse;
-  } catch (error) {
-    throw error;
-  }
+  dbQueryResponseWithMessage(successMessage, creatTableQuery);
 };
 
 // For inserting a new User from the command line
