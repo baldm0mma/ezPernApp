@@ -9,7 +9,7 @@ import {
   dbQueryResponseWithMessage,
   dbQueryResponseWithData,
 } from "./db.utilities.js";
-import { getItemNameFromTable } from "./gen.utils.js";
+import { getItemNameFromTable } from "./general.utilities.js";
 
 // Get table data of dynamic table
 export const getTableData = (

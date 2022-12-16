@@ -4,7 +4,7 @@ import {
   // deleteRow,
   // updateRow
 } from "./db.CRUD.js";
-import { getItemNameFromTable } from "./gen.utils.js";
+import { getItemNameFromTable } from "./general.utilities.js";
 
 export const buildRoutes = ({ app, route }) => {
   console.log("routesBuilt");
