@@ -38,11 +38,3 @@ export const buildCreateTableData = (attrs) => {
   return finalStringifiedAttrs.slice(0, -2);
   // npx run-func db.CRUD.js createTable 'friends' <shell_variable>
 };
-
-export const getItemNameFromTable = (tableName) => tableName.slice(0, -1);
-
-export const buildFakeUser = () => ({
-  firstname: faker.name.firstName(),
-  lastname: faker.name.lastName(),
-  email: faker.internet.email(),
-});
