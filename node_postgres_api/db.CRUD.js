@@ -1,15 +1,12 @@
 import { v4 } from "uuid";
 import { CSVToJSON } from "./csvParser.js";
 import { buildInsertData, buildUpdateData } from "./db.CRUD.utilities.js";
-import {
-  dbQueryResponseWithMessage,
-  dbQueryResponseWithData,
-} from "./db.utilities.js";
+import { dbQuery } from "./db.utilities.js";
 import { getItemNameFromTable } from "./general.utilities.js";
 
 // Get table data of dynamic table
 export const getTableData = (query) =>
-  dbQueryResponseWithData(query)
+  dbQuery(query)
     .then((data) => Promise.resolve(data))
     .catch((error) => error);
 
@@ -21,7 +18,9 @@ export const insertRow = (body, tableName, httpResponse) => {
   const { stringifiedKeys, stringifiedValues } = buildInsertData(body);
   const insertQuery = `INSERT INTO ${tableName}(id, inserted_at, ${stringifiedKeys}) VALUES ('${id}', '${Date.now()}', '${stringifiedValues}')`;
 
-  dbQueryResponseWithMessage(successMessage, insertQuery, httpResponse);
+  return dbQuery(insertQuery)
+    .then((data) => Promise.resolve(data))
+    .catch((error) => error);
 };
 
 // Update row of single dynamic table
@@ -35,7 +34,9 @@ export const updateRow = async (body, tableName, httpResponse) => {
   const updatedData = buildUpdateData(body);
   const updateQuery = `UPDATE ${tableName} SET ${updatedData} WHERE id=${id}`;
 
-  dbQueryResponseWithMessage(successMessage, updateQuery, httpResponse);
+  return dbQuery(insertQuery)
+    .then((data) => Promise.resolve(data))
+    .catch((error) => error);
 };
 
 // Delete row of single dynamic table
@@ -44,7 +45,9 @@ export const deleteRow = async (id, tableName, httpResponse) => {
   const successMessage = `Deletion was successful of ${itemName} of ID: ${id}`;
   const deleteQuery = `DELETE FROM ${tableName} WHERE id='${id}'`;
 
-  dbQueryResponseWithMessage(successMessage, deleteQuery, httpResponse);
+  return dbQuery(insertQuery)
+    .then((data) => Promise.resolve(data))
+    .catch((error) => error);
 };
 
 // Insert CSV data into table

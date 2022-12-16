@@ -7,7 +7,7 @@ import {
 import { getItemNameFromTable } from "./general.utilities.js";
 
 export const buildRoutes = ({ app, route }) => {
-  console.log("routesBuilt");
+  console.log(`${route} routes built`);
   // List all Objects -> Object[]
   app.get(`/${route}`, (_request, response, next) => {
     getTableData(`SELECT * FROM ${route}`)
@@ -27,7 +27,7 @@ export const buildRoutes = ({ app, route }) => {
     getTableData(`SELECT * FROM ${route} WHERE id=${id}`)
       .then((itemData) => {
         console.log(`Successfully queried ${itemName} with ID: ${id}`);
-        response.send(itemData);
+        response.send(itemData[0]);
       })
       .catch((error) => {
         next(error);
