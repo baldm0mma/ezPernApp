@@ -1,5 +1,4 @@
-// This function builds the singular item name from a table name: "users" -> "user"
-export const getItemNameFromTable = (tableName) => tableName.slice(0, -1);
+import { faker } from "@faker-js/faker";
 
 // Fake user data factory
 class FakeUser {

@@ -1,5 +1,3 @@
-import { faker } from "@faker-js/faker";
-
 // JEV: annotate return type here
 export const buildInsertData = (body) => {
   const keys = Object.keys(body);

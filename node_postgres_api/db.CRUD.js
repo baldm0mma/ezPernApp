@@ -1,8 +1,6 @@
 import { v4 } from "uuid";
 import { CSVToJSON } from "./csvParser.js";
 import {
-  buildCreateTableData,
-  buildFakeUser,
   buildInsertData,
   buildUpdateData,
   getItemNameFromTable,
@@ -11,6 +9,7 @@ import {
   dbQueryResponseWithMessage,
   dbQueryResponseWithData,
 } from "./db.utilities.js";
+import { getItemNameFromTable } from "./gen.utils.js";
 
 // Get table data of dynamic table
 export const getTableData = (
@@ -68,4 +67,3 @@ export const insertCSVData = async (filePath, tableName) => {
   // This throw will tie up the conditional from the `try` block above
   throw new Error("no data present in .CSV file");
 };
-
