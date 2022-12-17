@@ -5,42 +5,50 @@ import { dbQuery } from "./db.utilities.js";
 import { getItemNameFromTable } from "./general.utilities.js";
 
 // Get table data of dynamic table
-export const getTableData = (query) =>
-  dbQuery(query)
-    .then((data) => Promise.resolve(data))
-    .catch((error) => error);
+export const getTableData = async (query) => {
+  try {
+    const tableData = await dbQuery(query);
+    return Promise.resolve(tableData);
+  } catch (error) {
+    return error;
+  }
+};
 
 // Insert single row in dynamic table
-export const insertRow = (body, tableName, httpResponse) => {
+export const insertTableRow = async (body, tableName) => {
   const id = v4();
-  const itemName = getItemNameFromTable(tableName);
-  const successMessage = `Insertion was successful of new ${itemName} of ID: ${id}`;
   const { stringifiedKeys, stringifiedValues } = buildInsertData(body);
   const insertQuery = `INSERT INTO ${tableName}(id, inserted_at, ${stringifiedKeys}) VALUES ('${id}', '${Date.now()}', '${stringifiedValues}')`;
 
-  return dbQuery(insertQuery)
-    .then((data) => Promise.resolve(data))
-    .catch((error) => error);
+  try {
+    const insertedRow = await dbQuery(insertQuery);
+    return await Promise.resolve(insertedRow);
+  } catch (error) {
+    return error;
+  }
 };
 
 // Update row of single dynamic table
-export const updateRow = async (body, tableName, httpResponse) => {
+export const updateRow = async (body, tableName) => {
+  // JEV: ID through query params or header budy???
   const id = body?.id;
   // `throw` stops the execution of the function, no `return` required
   if (!id) throw Error("no ID sent with Req Body.");
   delete body.id;
   const itemName = getItemNameFromTable(tableName);
-  const successMessage = `Update was successful of ${itemName} of ID: ${id}`;
   const updatedData = buildUpdateData(body);
   const updateQuery = `UPDATE ${tableName} SET ${updatedData} WHERE id=${id}`;
 
-  return dbQuery(insertQuery)
-    .then((data) => Promise.resolve(data))
-    .catch((error) => error);
+  try {
+    const updatedRow = await dbQuery(updateQuery);
+    return await Promise.resolve(updatedRow);
+  } catch (error) {
+    return error;
+  }
 };
 
 // Delete row of single dynamic table
-export const deleteRow = async (id, tableName, httpResponse) => {
+export const deleteRow = async (id, tableName) => {
   const itemName = getItemNameFromTable(tableName);
   const successMessage = `Deletion was successful of ${itemName} of ID: ${id}`;
   const deleteQuery = `DELETE FROM ${tableName} WHERE id='${id}'`;
