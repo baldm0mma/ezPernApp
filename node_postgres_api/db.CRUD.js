@@ -15,10 +15,10 @@ export const getTableData = async (query) => {
 };
 
 // Insert single row in dynamic table
-export const insertTableRow = async (body, tableName) => {
+export const insertTableRow = async (body, tableName, query) => {
   const id = v4();
-  const { stringifiedKeys, stringifiedValues } = buildInsertData(body);
-  const insertQuery = `INSERT INTO ${tableName}(id, inserted_at, ${stringifiedKeys}) VALUES ('${id}', '${Date.now()}', '${stringifiedValues}')`;
+  // const { stringifiedKeys, stringifiedValues } = buildInsertData(body);
+  // const insertQuery = `INSERT INTO ${tableName}(id, inserted_at, ${stringifiedKeys}) VALUES ('${id}', '${Date.now()}', '${stringifiedValues}')`;
 
   try {
     const insertedRow = await dbQuery(insertQuery);

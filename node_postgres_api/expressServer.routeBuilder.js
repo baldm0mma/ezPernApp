@@ -43,13 +43,21 @@ export const buildRoutes = ({ app, route }) => {
   // Optional routes.
 
   // Insert Object
-  app.post(`/${route}`, async (request, response, next) => {
-    const body = request.body;
+  app.post(`/${route}`, async ({ body }, response, next) => {
     const itemName = getItemNameFromTable(route);
-    
+    const { stringifiedKeys, stringifiedValues } = buildInsertData(body);
+    const text =
+      "INSERT INTO $1(id, inserted_at, $2) VALUES ('$3', '$4', '$5')";
+    const values = [
+      tableName,
+      stringifiedKeys,
+      id,
+      Date.now(),
+      stringifiedValues,
+    ];
 
     try {
-      const insertedItem = await insertTableRow(body, route);
+      const insertedItem = await insertTableRow(body, route, insertQuery);
       const id = insertedItem[0]?.id;
       console.log(`Insertion was successful of new ${itemName} of ID: ${id}`);
       response.send(id);
