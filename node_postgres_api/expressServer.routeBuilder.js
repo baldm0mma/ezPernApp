@@ -12,8 +12,11 @@ export const buildRoutes = ({ app, route }) => {
 
   // List all Objects -> Object[]
   app.get(`/${route}`, async (_request, response, next) => {
+    const text = "SELECT * FROM $1";
+    const values = [route];
+
     try {
-      const tableData = await getTableData(`SELECT * FROM ${route}`);
+      const tableData = await getTableData(text, values);
       console.log(`Successfully queried all ${route}`);
       response.send(tableData);
     } catch (error) {
@@ -25,11 +28,11 @@ export const buildRoutes = ({ app, route }) => {
   app.get(`/${route}/:id`, async (request, response, next) => {
     const id = request.params.id;
     const itemName = getItemNameFromTable(route);
+    const text = "SELECT * FROM $1 WHERE id=$2";
+    const values = [route, id];
 
     try {
-      const itemData = await getTableData(
-        `SELECT * FROM ${route} WHERE id=${id}`
-      );
+      const itemData = await getTableData(text, values);
       console.log(`Successfully queried ${itemName} with ID: ${id}`);
       response.send(itemData[0]);
     } catch (error) {
@@ -43,6 +46,7 @@ export const buildRoutes = ({ app, route }) => {
   app.post(`/${route}`, async (request, response, next) => {
     const body = request.body;
     const itemName = getItemNameFromTable(route);
+    
 
     try {
       const insertedItem = await insertTableRow(body, route);
