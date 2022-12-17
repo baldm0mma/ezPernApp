@@ -86,7 +86,7 @@ export const buildRoutes = ({ app, route }) => {
   // Delete Object
   app.delete(`/${route}/:id`, async (_request, response, next) => {
     const id = req.params.id;
-    if (!id) throw Error("no ID sent with Req Body.");
+    if (!id) throw Error("no ID sent with URL.");
     const text = "DELETE FROM $1 WHERE id='$2'";
     const values = [tableName, id];
 
