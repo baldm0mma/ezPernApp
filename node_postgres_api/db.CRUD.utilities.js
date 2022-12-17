@@ -7,7 +7,7 @@ export const buildInsertData = (body) => {
 };
 
 // JEV: annotate return type here
-export let buildUpdateData = (body) => {
+export const buildUpdateData = (body) => {
   const keys = Object.keys(body);
   const data = keys.map((key) => `${key} = '${body[key]}'`);
   const stringifiedData = data.join(", ");

@@ -2,10 +2,11 @@ import {
   getTableData,
   insertTableRow,
   updateRow,
-  // deleteRow,
-  // updateRow
+  deleteRow,
+  updateRow,
 } from "./db.CRUD.js";
 import { getItemNameFromTable } from "./general.utilities.js";
+import { buildInsertData, buildUpdateData } from "./db.CRUD.utilities.js";
 
 export const buildRoutes = ({ app, route }) => {
   console.log(`${route} routes built`);
@@ -66,13 +67,13 @@ export const buildRoutes = ({ app, route }) => {
     const { id } = body;
     if (!id) throw Error("no ID sent with Req Body.");
     const itemName = getItemNameFromTable(route);
-    const updatedData = buildUpdateData(body);
     delete updatedData.id;
+    const updatedData = buildUpdateData(body);
     const text = "UPDATE $1 SET $2 WHERE id=$3";
     const values = [route, updatedData, id];
     // JEV: ID through query params or header body???
     // `throw` stops the execution of the function, no `return` required
-    
+
     try {
       const updatedItem = await updateRow(text, values);
       console.log(`Update was successful of ${itemName} of ID: ${id}`);
@@ -81,16 +82,16 @@ export const buildRoutes = ({ app, route }) => {
       next(error);
     }
   });
-  
+
   // Delete Object
   app.delete(`/${route}/:id`, async (_request, response, next) => {
     const id = req.params.id;
     if (!id) throw Error("no ID sent with Req Body.");
     const text = "DELETE FROM $1 WHERE id='$2'";
     const values = [tableName, id];
-    
+
     try {
-      const deletedRow = await deletedRow(text, values);
+      const deletedRow = await deleteRow(text, values);
       const { id } = deletedRow;
       console.log(`Deletion was successful of ${itemName} of ID: ${id}`);
       response.send(deletedRow);
