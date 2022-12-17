@@ -9,6 +9,7 @@ import { getItemNameFromTable } from "./general.utilities.js";
 
 export const buildRoutes = ({ app, route }) => {
   console.log(`${route} routes built`);
+
   // List all Objects -> Object[]
   app.get(`/${route}`, async (_request, response, next) => {
     try {
@@ -24,6 +25,7 @@ export const buildRoutes = ({ app, route }) => {
   app.get(`/${route}/:id`, async (request, response, next) => {
     const id = request.params.id;
     const itemName = getItemNameFromTable(route);
+
     try {
       const itemData = await getTableData(
         `SELECT * FROM ${route} WHERE id=${id}`
@@ -41,6 +43,7 @@ export const buildRoutes = ({ app, route }) => {
   app.post(`/${route}`, async (request, response, next) => {
     const body = request.body;
     const itemName = getItemNameFromTable(route);
+
     try {
       const insertedItem = await insertTableRow(body, route);
       const id = insertedItem[0]?.id;
@@ -55,6 +58,8 @@ export const buildRoutes = ({ app, route }) => {
   app.put(`/${route}`, async (request, response, next) => {
     const body = request.body;
     const { id } = body;
+    const itemName = getItemNameFromTable(tableName);
+
     try {
       const updatedItem = await updateRow(body, route);
       console.log(`Update was successful of ${itemName} of ID: ${id}`);

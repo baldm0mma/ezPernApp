@@ -35,7 +35,6 @@ export const updateRow = async (body, tableName) => {
   // `throw` stops the execution of the function, no `return` required
   if (!id) throw Error("no ID sent with Req Body.");
   delete body.id;
-  const itemName = getItemNameFromTable(tableName);
   const updatedData = buildUpdateData(body);
   const updateQuery = `UPDATE ${tableName} SET ${updatedData} WHERE id=${id}`;
 
