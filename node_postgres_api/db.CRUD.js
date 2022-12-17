@@ -5,9 +5,9 @@ import { dbQuery } from "./db.utilities.js";
 import { getItemNameFromTable } from "./general.utilities.js";
 
 // Get table data of dynamic table
-export const getTableData = async (query) => {
+export const getTableData = async (text, values) => {
   try {
-    const tableData = await dbQuery(query);
+    const tableData = await dbQuery(text, values);
     return Promise.resolve(tableData);
   } catch (error) {
     return error;
@@ -15,13 +15,13 @@ export const getTableData = async (query) => {
 };
 
 // Insert single row in dynamic table
-export const insertTableRow = async (body, tableName, query) => {
-  const id = v4();
+export const insertTableRow = async (text, values) => {
+  // const id = v4();
   // const { stringifiedKeys, stringifiedValues } = buildInsertData(body);
   // const insertQuery = `INSERT INTO ${tableName}(id, inserted_at, ${stringifiedKeys}) VALUES ('${id}', '${Date.now()}', '${stringifiedValues}')`;
 
   try {
-    const insertedRow = await dbQuery(insertQuery);
+    const insertedRow = await dbQuery(text, values);
     return await Promise.resolve(insertedRow);
   } catch (error) {
     return error;
@@ -30,13 +30,7 @@ export const insertTableRow = async (body, tableName, query) => {
 
 // Update row of single dynamic table
 export const updateRow = async (body, tableName) => {
-  // JEV: ID through query params or header budy???
-  const id = body?.id;
-  // `throw` stops the execution of the function, no `return` required
-  if (!id) throw Error("no ID sent with Req Body.");
-  delete body.id;
-  const updatedData = buildUpdateData(body);
-  const updateQuery = `UPDATE ${tableName} SET ${updatedData} WHERE id=${id}`;
+
 
   try {
     const updatedRow = await dbQuery(updateQuery);
