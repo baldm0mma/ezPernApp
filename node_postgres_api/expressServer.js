@@ -16,7 +16,7 @@ app.listen(PORT, () => {
 
 // JEV: first build db
 // JEV: second build a table - I suggest "users"
-// JEV: instert shit into table
+// JEV: instert shit into table via command line
 
 /*
   Build example "users" routes - only `get` routes are defined by default;

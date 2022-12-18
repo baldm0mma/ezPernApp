@@ -1,5 +1,6 @@
 import {
-  getTableData,
+  getTableListData,
+  getTableSingleRowData,
   insertTableRow,
   updateRow,
   deleteRow,
@@ -13,11 +14,8 @@ export const buildRoutes = ({ app, route }) => {
 
   // List all Objects -> Object[]
   app.get(`/${route}`, async (_request, response, next) => {
-    const text = "SELECT * FROM $1";
-    const values = [route];
-
     try {
-      const tableData = await getTableData(text, values);
+      const tableData = await getTableListData(route);
       console.log(`Successfully queried all ${route}`);
       response.send(tableData);
     } catch (error) {
@@ -27,21 +25,14 @@ export const buildRoutes = ({ app, route }) => {
 
   // Get single Objects by ID -> [Object]
   app.get(`/${route}/:id`, async ({ params }, response, next) => {
-    const id = params.id;
-    const itemName = getItemNameFromTable(route);
-    const text = "SELECT * FROM $1 WHERE id=$2";
-    const values = [route, id];
-
     try {
-      const itemData = await getTableData(text, values);
+      const itemData = await getTableSingleRowData(text, values);
       console.log(`Successfully queried ${itemName} with ID: ${id}`);
       response.send(itemData[0]);
     } catch (error) {
       next(error);
     }
   });
-
-  // Optional routes.
 
   // Insert Object
   app.post(`/${route}`, async ({ body }, response, next) => {
@@ -71,8 +62,6 @@ export const buildRoutes = ({ app, route }) => {
     const updatedData = buildUpdateData(body);
     const text = "UPDATE $1 SET $2 WHERE id=$3";
     const values = [route, updatedData, id];
-    // JEV: ID through query params or header body???
-    // `throw` stops the execution of the function, no `return` required
 
     try {
       const updatedItem = await updateRow(text, values);
