@@ -3,7 +3,7 @@ import { CSVToJSON } from "./csvParser.js";
 import { buildInsertData, buildUpdateData } from "./db.CRUD.utilities.js";
 import { dbQuery } from "./db.utilities.js";
 import { getItemNameFromTable } from "./general.utilities.js";
-import { fullTableQuery, singleRowQuery } from "./rawSQL.js";
+import { fullTableQuery, singleRowQuery, insertRowQuery } from "./rawSQL.js";
 
 // Get table data of dynamic table
 export const getTableListData = async (table) => {
@@ -29,9 +29,13 @@ export const getTableSingleRowData = async (table, { id }) => {
 };
 
 // Insert single row in dynamic table
-export const insertTableRow = async (text, values) => {
+export const insertTableRow = async (table, body) => {
+  const id = v4();
+  const { stringifiedKeys, stringifiedValues } = buildInsertData(body);
+  const values = [table, stringifiedKeys, id, Date.now(), stringifiedValues];
+
   try {
-    const insertedRow = await dbQuery(text, values);
+    const insertedRow = await dbQuery(insertRowQuery, values);
     return await Promise.resolve(insertedRow);
   } catch (error) {
     return error;

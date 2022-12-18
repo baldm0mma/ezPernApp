@@ -25,7 +25,7 @@ export const buildRoutes = ({ app, route }) => {
   });
 
   // Get single Objects by ID -> [Object]
-  app.get(`/${route}/:id`, async ({ params }, response, next) => {
+  app.get(`/${route}/:id`, async ({ body }, response, next) => {
     /*
       No need to grab the `id` from the url parameters since it's already included in the request body.
       In the RESTful convention, the parsed url params can be used as data for the API, 
@@ -34,8 +34,8 @@ export const buildRoutes = ({ app, route }) => {
     const itemName = getItemNameFromTable(route);
 
     try {
-      const itemData = await getTableSingleRowData(route, params);
-      console.log(`Successfully queried ${itemName} with ID: ${id}`);
+      const itemData = await getTableSingleRowData(route, body);
+      console.log(`Successfully queried ${itemName} with ID: ${body?.id}`);
       response.send(itemData[0]);
     } catch (error) {
       next(error);
@@ -44,15 +44,10 @@ export const buildRoutes = ({ app, route }) => {
 
   // Insert Object
   app.post(`/${route}`, async ({ body }, response, next) => {
-    const id = v4();
     const itemName = getItemNameFromTable(route);
-    const { stringifiedKeys, stringifiedValues } = buildInsertData(body);
-    const text =
-      "INSERT INTO $1(id, inserted_at, $2) VALUES ('$3', '$4', '$5')";
-    const values = [route, stringifiedKeys, id, Date.now(), stringifiedValues];
 
     try {
-      const insertedItem = await insertTableRow(text, values);
+      const insertedItem = await insertTableRow(route, body);
       const id = insertedItem[0]?.id;
       console.log(`Insertion was successful of new ${itemName} of ID: ${id}`);
       response.send(id);
