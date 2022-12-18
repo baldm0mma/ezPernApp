@@ -1,35 +1,32 @@
-import { v4 } from "uuid";
+// JEV: Make CSV parser into package???
 import { CSVToJSON } from "./csvParser.js";
 import { buildInsertData, buildUpdateData } from "./db.CRUD.utilities.js";
 import { dbQuery } from "./db.utilities.js";
 import { getItemNameFromTable } from "./general.utilities.js";
+import { fullTableQuery, singleRowQuery } from "./rawSQL.js";
 
 // Get table data of dynamic table
 export const getTableListData = async (table) => {
-  const text = "SELECT * FROM $1";
   const values = [table];
 
   try {
-    const tableData = await dbQuery(text, values);
+    const tableData = await dbQuery(fullTableQuery, values);
     return Promise.resolve(tableData);
   } catch (error) {
     return error;
   }
 };
 
-export const getTableSingleRowData = async (table, {id}) => {
-  const text = "SELECT * FROM $1 WHERE id=$2";
+export const getTableSingleRowData = async (table, { id }) => {
   const values = [table, id];
 
   try {
-    const tableData = await dbQuery(text, values);
+    const tableData = await dbQuery(singleRowQuery, values);
     return Promise.resolve(tableData);
   } catch (error) {
     return error;
   }
 };
-
-
 
 // Insert single row in dynamic table
 export const insertTableRow = async (text, values) => {

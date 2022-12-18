@@ -5,7 +5,7 @@ import {
   updateRow,
   deleteRow,
   updateRow,
-} from "./db.CRUD.js";
+} from "./resolvers.js";
 import { getItemNameFromTable } from "./general.utilities.js";
 import { buildInsertData, buildUpdateData } from "./db.CRUD.utilities.js";
 
@@ -16,6 +16,7 @@ export const buildRoutes = ({ app, route }) => {
   app.get(`/${route}`, async (_request, response, next) => {
     try {
       const tableData = await getTableListData(route);
+      // JEV: Abstract away success messages?
       console.log(`Successfully queried all ${route}`);
       response.send(tableData);
     } catch (error) {
@@ -25,6 +26,11 @@ export const buildRoutes = ({ app, route }) => {
 
   // Get single Objects by ID -> [Object]
   app.get(`/${route}/:id`, async ({ params }, response, next) => {
+    /*
+      No need to grab the `id` from the url parameters since it's already included in the request body.
+      In the RESTful convention, the parsed url params can be used as data for the API, 
+      but primarily they're used to suggest to the client what the API is querying.
+    */
     const itemName = getItemNameFromTable(route);
 
     try {
