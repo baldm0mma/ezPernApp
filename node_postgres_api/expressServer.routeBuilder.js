@@ -25,8 +25,10 @@ export const buildRoutes = ({ app, route }) => {
 
   // Get single Objects by ID -> [Object]
   app.get(`/${route}/:id`, async ({ params }, response, next) => {
+    const itemName = getItemNameFromTable(route);
+
     try {
-      const itemData = await getTableSingleRowData(text, values);
+      const itemData = await getTableSingleRowData(route, params);
       console.log(`Successfully queried ${itemName} with ID: ${id}`);
       response.send(itemData[0]);
     } catch (error) {

@@ -17,11 +17,9 @@ export const getTableListData = async (table) => {
   }
 };
 
-export const getTableSingleRowData = async (table) => {
-  const id = params.id;
-  const itemName = getItemNameFromTable(route);
+export const getTableSingleRowData = async (table, {id}) => {
   const text = "SELECT * FROM $1 WHERE id=$2";
-  const values = [route, id];
+  const values = [table, id];
 
   try {
     const tableData = await dbQuery(text, values);
