@@ -15,9 +15,8 @@ export const buildRoutes = ({ app, route }) => {
   // List all Objects -> Object[]
   app.get(`/${route}`, async (_request, response, next) => {
     try {
-      const tableData = await getTableListData(route);
-      // JEV: Abstract away success messages?
-      console.log(`Successfully queried all ${route}`);
+      const { tableData, successMessage } = await getTableListData(route);
+      console.log(successMessage);
       response.send(tableData);
     } catch (error) {
       next(error);
@@ -31,11 +30,13 @@ export const buildRoutes = ({ app, route }) => {
       In the RESTful convention, the parsed url params can be used as data for the API, 
       but primarily they're used to suggest to the client what the API is querying.
     */
-    const itemName = getItemNameFromTable(route);
 
     try {
-      const itemData = await getTableSingleRowData(route, body);
-      console.log(`Successfully queried ${itemName} with ID: ${body?.id}`);
+      const { itemData, successMessage } = await getTableSingleRowData(
+        route,
+        body
+      );
+      console.log(successMessage);
       response.send(itemData[0]);
     } catch (error) {
       next(error);

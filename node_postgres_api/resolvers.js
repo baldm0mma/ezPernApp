@@ -8,10 +8,11 @@ import { fullTableQuery, singleRowQuery, insertRowQuery } from "./rawSQL.js";
 // Get table data of dynamic table
 export const getTableListData = async (table) => {
   const values = [table];
+  const successMessage = `Successfully queried ${table}`;
 
   try {
     const tableData = await dbQuery(fullTableQuery, values);
-    return Promise.resolve(tableData);
+    return Promise.resolve({ tableData, successMessage });
   } catch (error) {
     return error;
   }
@@ -19,10 +20,12 @@ export const getTableListData = async (table) => {
 
 export const getTableSingleRowData = async (table, { id }) => {
   const values = [table, id];
+  const itemName = getItemNameFromTable(table);
+  const successMessage = `Successfully queried ${itemName} with ID: ${id}`;
 
   try {
     const tableData = await dbQuery(singleRowQuery, values);
-    return Promise.resolve(tableData);
+    return Promise.resolve({ tableData, successMessage });
   } catch (error) {
     return error;
   }
