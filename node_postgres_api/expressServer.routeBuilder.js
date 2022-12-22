@@ -27,7 +27,7 @@ export const buildRoutes = ({ app, route }) => {
   app.get(`/${route}/:id`, async ({ body }, response, next) => {
     /*
       No need to grab the `id` from the url parameters since it's already included in the request body.
-      In the RESTful convention, the parsed url params can be used as data for the API, 
+      In the RESTful convention, the parsed url params *can* be used as data for the API, 
       but primarily they're used to suggest to the client what the API is querying.
     */
 
@@ -37,7 +37,7 @@ export const buildRoutes = ({ app, route }) => {
         body
       );
       console.log(successMessage);
-      response.send(itemData[0]);
+      response.send(itemData);
     } catch (error) {
       next(error);
     }
@@ -45,12 +45,13 @@ export const buildRoutes = ({ app, route }) => {
 
   // Insert Object
   app.post(`/${route}`, async ({ body }, response, next) => {
-    const itemName = getItemNameFromTable(route);
-
     try {
-      const insertedItem = await insertTableRow(route, body);
-      const id = insertedItem[0]?.id;
-      console.log(`Insertion was successful of new ${itemName} of ID: ${id}`);
+      const { insertedItem, successMessage } = await insertTableRow(
+        route,
+        body
+      );
+      const id = insertedItem?.id;
+      console.log(successMessage);
       response.send(id);
     } catch (error) {
       next(error);
@@ -59,17 +60,17 @@ export const buildRoutes = ({ app, route }) => {
 
   // Update Object
   app.put(`/${route}`, async ({ body }, response, next) => {
-    const { id } = body;
-    if (!id) throw Error("no ID sent with Req Body.");
-    const itemName = getItemNameFromTable(route);
-    delete updatedData.id;
-    const updatedData = buildUpdateData(body);
-    const text = "UPDATE $1 SET $2 WHERE id=$3";
-    const values = [route, updatedData, id];
+    // const { id } = body;
+    // if (!id) throw Error("no ID sent with Req Body.");
+    // const itemName = getItemNameFromTable(route);
+    // delete updatedData.id;
+    // const updatedData = buildUpdateData(body);
+    // const text = "UPDATE $1 SET $2 WHERE id=$3";
+    // const values = [route, updatedData, id];
 
     try {
-      const updatedItem = await updateRow(text, values);
-      console.log(`Update was successful of ${itemName} of ID: ${id}`);
+      const { updatedItem, successMessage } = await updateRow(text, values);
+      console.log(successMessage);
       response.send(updatedItem);
     } catch (error) {
       next(error);

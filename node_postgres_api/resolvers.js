@@ -25,7 +25,8 @@ export const getTableSingleRowData = async (table, { id }) => {
 
   try {
     const tableData = await dbQuery(singleRowQuery, values);
-    return Promise.resolve({ tableData, successMessage });
+    const itemData = tableData[0];
+    return Promise.resolve({ itemData, successMessage });
   } catch (error) {
     return error;
   }
@@ -34,12 +35,14 @@ export const getTableSingleRowData = async (table, { id }) => {
 // Insert single row in dynamic table
 export const insertTableRow = async (table, body) => {
   const id = v4();
+  const itemName = getItemNameFromTable(table);
+  const successMessage = `Successfully inserted ${itemName} of ID: ${id}`;
   const { stringifiedKeys, stringifiedValues } = buildInsertData(body);
   const values = [table, stringifiedKeys, id, Date.now(), stringifiedValues];
 
   try {
     const insertedRow = await dbQuery(insertRowQuery, values);
-    return await Promise.resolve(insertedRow);
+    return await Promise.resolve({ insertedRow, successMessage });
   } catch (error) {
     return error;
   }
