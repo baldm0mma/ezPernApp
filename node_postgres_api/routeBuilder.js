@@ -6,8 +6,6 @@ import {
   deleteRow,
   updateRow,
 } from "./resolvers.js";
-import { getItemNameFromTable } from "./general.utilities.js";
-import { buildInsertData, buildUpdateData } from "./db.CRUD.utilities.js";
 
 export const buildRoutes = ({ app, route }) => {
   console.log(`${route} routes built`);
@@ -50,9 +48,8 @@ export const buildRoutes = ({ app, route }) => {
         route,
         body
       );
-      const id = insertedItem?.id;
       console.log(successMessage);
-      response.send(id);
+      response.send(insertedItem);
     } catch (error) {
       next(error);
     }
@@ -60,16 +57,8 @@ export const buildRoutes = ({ app, route }) => {
 
   // Update Object
   app.put(`/${route}`, async ({ body }, response, next) => {
-    // const { id } = body;
-    // if (!id) throw Error("no ID sent with Req Body.");
-    // const itemName = getItemNameFromTable(route);
-    // delete updatedData.id;
-    // const updatedData = buildUpdateData(body);
-    // const text = "UPDATE $1 SET $2 WHERE id=$3";
-    // const values = [route, updatedData, id];
-
     try {
-      const { updatedItem, successMessage } = await updateRow(text, values);
+      const { updatedItem, successMessage } = await updateRow(route, body);
       console.log(successMessage);
       response.send(updatedItem);
     } catch (error) {
@@ -78,16 +67,10 @@ export const buildRoutes = ({ app, route }) => {
   });
 
   // Delete Object
-  app.delete(`/${route}/:id`, async (_request, response, next) => {
-    const id = req.params.id;
-    if (!id) throw Error("no ID sent with URL.");
-    const text = "DELETE FROM $1 WHERE id='$2'";
-    const values = [tableName, id];
-
+  app.delete(`/${route}/:id`, async ({ body }, response, next) => {
     try {
-      const deletedRow = await deleteRow(text, values);
-      const { id } = deletedRow;
-      console.log(`Deletion was successful of ${itemName} of ID: ${id}`);
+      const { deletedRow, successMessage } = await deleteRow(route, body);
+      console.log(successMessage);
       response.send(deletedRow);
     } catch (error) {
       next(error);

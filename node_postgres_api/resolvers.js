@@ -3,7 +3,12 @@ import { CSVToJSON } from "./csvParser.js";
 import { buildInsertData, buildUpdateData } from "./db.CRUD.utilities.js";
 import { dbQuery } from "./db.utilities.js";
 import { getItemNameFromTable } from "./general.utilities.js";
-import { fullTableQuery, singleRowQuery, insertRowQuery } from "./rawSQL.js";
+import {
+  fullTableQuery,
+  singleRowQuery,
+  insertRowQuery,
+  deleteRowQuery,
+} from "./rawSQL.js";
 
 // Get table data of dynamic table
 export const getTableListData = async (table) => {
@@ -18,7 +23,10 @@ export const getTableListData = async (table) => {
   }
 };
 
-export const getTableSingleRowData = async (table, { id }) => {
+export const getTableSingleRowData = async (table, body) => {
+  const { id } = body;
+  if (!id) throw Error("no ID sent with Req Body.");
+
   const values = [table, id];
   const itemName = getItemNameFromTable(table);
   const successMessage = `Successfully queried ${itemName} with ID: ${id}`;
@@ -49,25 +57,38 @@ export const insertTableRow = async (table, body) => {
 };
 
 // Update row of single dynamic table
-export const updateRow = async (body, tableName) => {
-  // send body
+export const updateRow = async (table, body) => {
+  const { id } = body;
+  if (!id) throw Error("no ID sent with Req Body.");
+
+  const itemName = getItemNameFromTable(table);
+  const successMessage = `Successfully inserted ${itemName} of ID: ${id}`;
+  const updatedData = buildUpdateData(body);
+  delete updatedData.id;
+  const values = [route, updatedData, id];
+
   try {
-    const updatedRow = await dbQuery(updateQuery);
-    return await Promise.resolve(updatedRow);
+    const updatedRow = await dbQuery(updateQuery, values);
+    return await Promise.resolve({ updatedRow, successMessage });
   } catch (error) {
     return error;
   }
 };
 
 // Delete row of single dynamic table
-export const deleteRow = async (id, tableName) => {
-  const itemName = getItemNameFromTable(tableName);
-  const successMessage = `Deletion was successful of ${itemName} of ID: ${id}`;
-  const deleteQuery = `DELETE FROM ${tableName} WHERE id='${id}'`;
+export const deleteRow = async (table, { id }) => {
+  if (!id) throw Error("no ID sent with Req Body.");
 
-  return dbQuery(insertQuery)
-    .then((data) => Promise.resolve(data))
-    .catch((error) => error);
+  const values = [tableName, id];
+  const itemName = getItemNameFromTable(table);
+  const successMessage = `Deletion was successful of ${itemName} of ID: ${id}`;
+
+  try {
+    const deletedRow = await dbQuery(deleteRowQuery, values);
+    return await Promise.resolve({ deletedRow, successMessage });
+  } catch (error) {
+    return error;
+  }
 };
 
 // Insert CSV data into table
