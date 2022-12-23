@@ -1,8 +1,13 @@
 import { faker } from "@faker-js/faker";
+import { buildCreateTableData } from "./db.CRUD.utilities";
+// import { dbQuery } from "./db.utilities.js";
 
 // Create new Table
 // Type out args
-export const createTable = async (tableName, tableAttrs) => {
+export const createTable = async (
+  tableName: string,
+  tableAttrs: { [key: string]: any }
+) => {
   // console.log(tableName, "tablename");
   // console.log(tableAttrs, "tableAttrs");
   const successMessage = `Successfully created the ${tableName} table!`;
@@ -11,7 +16,7 @@ export const createTable = async (tableName, tableAttrs) => {
   )})`;
   console.log(creatTableQuery, "creatTableQuery");
 
-  dbQueryResponseWithMessage(successMessage, creatTableQuery);
+  dbQuery(successMessage, creatTableQuery);
 };
 
 // For inserting a new User from the command line

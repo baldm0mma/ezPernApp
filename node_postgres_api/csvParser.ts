@@ -10,7 +10,10 @@ export const CSVToJSON = async (path: string): Promise<string[] | Error> =>
       .on("data", (row) => results.push(row))
       .on("end", () => {
         console.log("CSV file successfully processed");
+        console.log(results, "results");
         resolve(results);
       })
       .on("error", () => reject(new Error("Promise rejected in stream")));
   });
+
+CSVToJSON("./test.csv");

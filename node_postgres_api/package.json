@@ -9,13 +9,14 @@
   },
   "type": "module",
   "scripts": {
-    "start": "tsc && node dist/index.js",
+    "start": "tsc && node dist/expressServer.js",
     "insertUser": "npx run-func db.CRUD.js insertNewUser",
     "createTable": "npx run-func db.CRUD.js createTable"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
     "@types/node": "^18.11.17",
+    "@types/pg": "^8.6.6",
     "typescript": "^4.9.4"
   }
 }

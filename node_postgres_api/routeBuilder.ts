@@ -4,7 +4,6 @@ import {
   insertTableRow,
   updateRow,
   deleteRow,
-  updateRow,
 } from "./resolvers.js";
 
 export const buildRoutes = ({ app, route }) => {

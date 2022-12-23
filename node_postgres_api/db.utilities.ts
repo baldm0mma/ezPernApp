@@ -1,9 +1,9 @@
 import { client } from "./db.config.js";
 
-export const dbQuery = (text, values) => {
+export const dbQuery = (templateSQL: string, values: any[]) => {
   return new Promise((resolve, reject) => {
     client
-      .query(text, values)
+      .query(templateSQL, values)
       .then((result) => {
         const data = result?.rows;
         resolve(data);
