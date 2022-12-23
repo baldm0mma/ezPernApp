@@ -2,9 +2,9 @@ import csv from "csv-parser";
 import fs from "fs";
 
 // Pares CSV file
-export const CSVToJSON = async (path) =>
+export const CSVToJSON = async (path: string): Promise<string[] | Error> =>
   new Promise((resolve, reject) => {
-    const results = [];
+    const results: string[] = [];
     fs.createReadStream(path)
       .pipe(csv())
       .on("data", (row) => results.push(row))
@@ -12,5 +12,5 @@ export const CSVToJSON = async (path) =>
         console.log("CSV file successfully processed");
         resolve(results);
       })
-      .on("error", () => reject("Promise rejected in stream"));
+      .on("error", () => reject(new Error("Promise rejected in stream")));
   });
