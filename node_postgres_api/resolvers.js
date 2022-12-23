@@ -8,7 +8,7 @@ import {
   singleRowQuery,
   insertRowQuery,
   deleteRowQuery,
-} from "./rawSQL.js";
+} from "./templateSQL.js";
 
 // Get table data of dynamic table
 export const getTableListData = async (table) => {
