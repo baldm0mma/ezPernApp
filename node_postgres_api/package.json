@@ -14,6 +14,8 @@
     "createTable": "npx run-func db.CRUD.js createTable"
   },
   "devDependencies": {
-    "@faker-js/faker": "^7.6.0"
+    "@faker-js/faker": "^7.6.0",
+    "@types/node": "^18.11.17",
+    "typescript": "^4.9.4"
   }
 }
