@@ -1,3 +1,4 @@
+// JEV: rethink this any
 type BuildInsertDataArgsType = { [key: string]: any };
 
 type BuildInsertDataReturnType = {
