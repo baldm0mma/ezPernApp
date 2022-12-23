@@ -9,7 +9,7 @@
   },
   "type": "module",
   "scripts": {
-    "start": "node ./expressServer.js",
+    "start": "tsc && node dist/index.js",
     "insertUser": "npx run-func db.CRUD.js insertNewUser",
     "createTable": "npx run-func db.CRUD.js createTable"
   },
