@@ -92,17 +92,17 @@ export const deleteRow = async (table, { id }) => {
 };
 
 // Insert CSV data into table
-export const insertCSVData = async (filePath, tableName) => {
-  try {
-    const data = await CSVToJSON(filePath);
-    if (!!data?.length) {
-      data.forEach((entry) => {
-        insertRow(entry, tableName);
-      });
-    }
-  } catch (error) {
-    throw new Error(error);
-  }
-  // This throw will tie up the conditional from the `try` block above
-  throw new Error("no data present in .CSV file");
-};
+// export const insertCSVData = async (filePath, tableName) => {
+//   try {
+//     const data = await CSVToJSON(filePath);
+//     if (!!data?.length) {
+//       data.forEach((entry) => {
+//         insertTableRow(entry, tableName);
+//       });
+//     }
+//   } catch (error) {
+//     throw new Error(error);
+//   }
+//   // This throw will tie up the conditional from the `try` block above
+//   throw new Error("no data present in .CSV file");
+// };
