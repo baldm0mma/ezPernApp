@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { buildRoutes } from "./routeBuilder.js";
 
+// JEV: build .env file for env vars
 const PORT = 4000;
 
 const DEFAULT_ROUTE = "users";

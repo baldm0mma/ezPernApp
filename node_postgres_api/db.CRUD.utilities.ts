@@ -24,11 +24,7 @@ export const buildUpdateData = (attrs: BuildUpdateDataArgsType): string => {
   return stringifiedData;
 };
 
-type BuildCreateTableDataArgsType = string;
-
-export const buildCreateTableData = (
-  attrs: BuildCreateTableDataArgsType
-): string => {
+export const buildCreateTableData = (attrs: string): string => {
   const parsedAttrs = JSON.parse(attrs);
   let finalStringifiedAttrs = "";
   const columnNames = Object.keys(parsedAttrs);

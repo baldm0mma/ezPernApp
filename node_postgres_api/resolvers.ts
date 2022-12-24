@@ -1,5 +1,5 @@
+import { v4 } from "uuid";
 // JEV: Make CSV parser into package???
-import { CSVToJSON } from "./csvParser.js";
 import { buildInsertData, buildUpdateData } from "./db.CRUD.utilities.js";
 import { dbQuery } from "./db.utilities.js";
 import { getItemNameFromTable } from "./general.utilities.js";
@@ -11,15 +11,18 @@ import {
 } from "./templateSQL.js";
 
 // Get table data of dynamic table
-export const getTableListData = async (table) => {
-  const values = [table];
-  const successMessage = `Successfully queried ${table}`;
+export const getTableListData = async (
+  tableName: string
+): Promise<{ tableData: any[]; successMessage: string }> => {
+  const values = [tableName];
+  const successMessage = `Successfully queried ${tableName}`;
 
   try {
     const tableData = await dbQuery(fullTableQuery, values);
+    // Why would I need to type this as `| Error` above? There should be no error, since the catch should catch it...
     return Promise.resolve({ tableData, successMessage });
   } catch (error) {
-    return error;
+    return Promise.reject(error);
   }
 };
 

@@ -1,21 +1,16 @@
 import { faker } from "@faker-js/faker";
 import { buildCreateTableData } from "./db.CRUD.utilities";
-// import { dbQuery } from "./db.utilities.js";
+import { dbQuery } from "./db.utilities";
 
 // Create new Table
-// Type out args
-export const createTable = async (
-  tableName: string,
-  tableAttrs: { [key: string]: any }
-) => {
-  // console.log(tableName, "tablename");
-  // console.log(tableAttrs, "tableAttrs");
+export const createTable = async (tableName: string, tableAttrs: string) => {
   const successMessage = `Successfully created the ${tableName} table!`;
   const creatTableQuery = `CREATE TABLE ${tableName} (${buildCreateTableData(
     tableAttrs
   )})`;
   console.log(creatTableQuery, "creatTableQuery");
 
+  // JEV: update the args here
   dbQuery(successMessage, creatTableQuery);
 };
 
