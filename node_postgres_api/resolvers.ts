@@ -13,16 +13,16 @@ import {
 // Get table data of dynamic table
 export const getTableListData = async (
   tableName: string
-): Promise<{ tableData: any[]; successMessage: string }> => {
+): Promise<{ tableData: any[]; successMessage: string } | unknown> => {
   const values = [tableName];
   const successMessage = `Successfully queried ${tableName}`;
 
   try {
     const tableData = await dbQuery(fullTableQuery, values);
     // Why would I need to type this as `| Error` above? There should be no error, since the catch should catch it...
-    return Promise.resolve({ tableData, successMessage });
+    return { tableData, successMessage };
   } catch (error) {
-    return Promise.reject(error);
+    return error;
   }
 };
 
